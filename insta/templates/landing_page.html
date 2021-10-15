@@ -1,0 +1,54 @@
+{% extends "django_registration/base.html"%}
+{% load bootstrap4 %}
+{% block content %}
+<div class="container">
+  <div class="row top-buffer">
+
+    <div class="col-md-4">
+    </div>
+
+    <div class="col-md-4 text-center">
+
+      {% if form.errors %}
+      <p> Password or Username is incorrect </p>
+      {% endif %}
+      <div class="card card-default">
+
+        <div class="card-heading">
+
+          <p class='logo'> FakeInsta!</p>
+          <hr>
+          <p class='smallFont'> ~Inspired by Instagram.</p>
+
+
+        </div>
+        <div class="card-body">
+
+          <form action="/accounts/login/" method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+
+              {% bootstrap_form form %}
+
+              <input type="submit" class="btn btn-primary btn-sm" value="Login">
+            </div>
+
+            <input type="hidden" name="next" value="{{next}}">
+
+            <hr>
+            <p class='text-center'> New to FakeInsta? <a href='/accounts/register'> Sign-up here.</a></p>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-4"></div>
+  </div>
+</div>
+
+{% endblock %}
