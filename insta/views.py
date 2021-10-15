@@ -43,3 +43,40 @@ def comments(request,image_id):
       form.save()
   
   return redirect('instaHome')
+
+#search feature
+@login_required(login_url='/accounts/login')
+def search_results(request):
+  likesForm = LikesForm
+  commentForm = CommentsForm
+  images = Image.objects.all()
+  user = request.user.get_username()
+  current_user = request.user
+  photos = Image.objects.filter(profile=current_user.id)
+  profile = Profile.objects.all()
+  likes = Like.objects.all()
+        
+  try:
+    user = User.objects.get(id =request.user.id)
+  except ObjectDoesNotExist:
+    raise Http404()
+  message = 'based on your search term'
+  return render(request, 'insta_pages/search.html',locals())
+      
+  if 'username' in request.GET and request.GET["username"]:
+    form = forms.AuthenticationForm
+    images = Image.objects.all()
+    user = request.user.get_username()
+    profile = Profile.objects.all()
+    search_term = request.GET.get("username")
+    searched_users = Image.search_by_username(search_term)
+    message = f"{search_term}"
+    # print(User.objects.get(username=search_term))
+    photos = Image.objects.filter(profile=User.objects.get(username=search_term))
+
+    return render(request, 'insta_pages/search.html',locals())
+
+  else:
+    message = "You haven't searched for any term"
+    return render(request, 'insta_pages/search.html',locals())
+
