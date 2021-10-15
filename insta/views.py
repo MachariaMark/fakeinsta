@@ -91,7 +91,6 @@ def profilePage(request):
   photos = Image.objects.filter(profile=current_user.id)
   profile = Profile.objects.all()
   likes = Like.objects.all()
- 
     
   return render(request,'insta_pages/profile.html', locals())
 
@@ -106,8 +105,7 @@ def updateProfile(request):
     updateForm = UpdateProfileForm(request.POST,request.FILES,instance=request.user.profile)
 
     if updateForm.is_valid():
-      updateForm.save()
-            
+      updateForm.save()      
             
     return redirect('instaProfile')
   else:
@@ -115,4 +113,30 @@ def updateProfile(request):
 
   return render(request,'insta_pages/update_profile.html', locals())
 
- 
+#upload feed/pic/video page
+@login_required(login_url='/accounts/login')
+def uploadPic(request):
+  current_user = request.user
+  # my_prof = Profile.objects.get(id=current_user.id)
+  uploadForm = UploadPicForm()
+  print(uploadForm)
+  # uploadForm = UploadPicForm(request.POST or None,request.FILES or None)
+
+  if request.method == 'POST':
+    uploadForm = UploadPicForm(request.POST,request.FILES)
+    # profile = request.user.username
+    # uploadForm = UploadPicForm(request.POST or None,request.FILES or None)
+    user = request.user.id
+
+    if uploadForm.is_valid():
+      upload = uploadForm.save(commit=False)
+      upload.user = request.user.profile
+      upload.profile = current_user
+      upload.save()    
+            
+    return redirect('instaProfile')
+  else:
+    # uploadForm = UploadPicForm(request.POST or None,request.FILES or None)
+    uploadForm = UploadPicForm()
+
+  return render(request,'klooni_pages/upload_pic.html', locals()) 
