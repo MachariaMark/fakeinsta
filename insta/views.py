@@ -71,7 +71,6 @@ def search_results(request):
     search_term = request.GET.get("username")
     searched_users = Image.search_by_username(search_term)
     message = f"{search_term}"
-    # print(User.objects.get(username=search_term))
     photos = Image.objects.filter(profile=User.objects.get(username=search_term))
 
     return render(request, 'insta_pages/search.html',locals())
@@ -117,15 +116,11 @@ def updateProfile(request):
 @login_required(login_url='/accounts/login')
 def uploadPic(request):
   current_user = request.user
-  # my_prof = Profile.objects.get(id=current_user.id)
   uploadForm = UploadPicForm()
   print(uploadForm)
-  # uploadForm = UploadPicForm(request.POST or None,request.FILES or None)
 
   if request.method == 'POST':
     uploadForm = UploadPicForm(request.POST,request.FILES)
-    # profile = request.user.username
-    # uploadForm = UploadPicForm(request.POST or None,request.FILES or None)
     user = request.user.id
 
     if uploadForm.is_valid():
@@ -136,7 +131,6 @@ def uploadPic(request):
             
     return redirect('instaProfile')
   else:
-    # uploadForm = UploadPicForm(request.POST or None,request.FILES or None)
     uploadForm = UploadPicForm()
 
   return render(request,'klooni_pages/upload_pic.html', locals()) 
