@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth import views
+from django.urls import path,include,reverse_lazy
+from django_registration.backends.one_step.views import RegistrationView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
