@@ -1,3 +1,3 @@
 from django.test import TestCase
-
-# Create your tests here.
+from .models import Profile, Image
+from django.shortcuts import get_object_or_404
