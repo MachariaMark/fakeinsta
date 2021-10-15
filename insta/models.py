@@ -95,4 +95,20 @@ class Like(models.Model):
         
   def __str__(self):
     return str(self.likes)
+
+class Comment(models.Model):
+  comments = models.CharField(max_length =200, blank=True)
+  image = models.ForeignKey(Image, on_delete=models.CASCADE, default=None)
+  user = models.ForeignKey(User,on_delete=models.CASCADE)
     
+  def save_comment(self):
+    self.save()
+        
+  @classmethod
+  def get_comments(cls,id):
+    comments = cls.objects.filter(image__id=id)
+        
+    return comments
+        
+  def __str__(self):
+    return str(self.comments)
