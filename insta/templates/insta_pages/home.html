@@ -1,0 +1,111 @@
+{% extends 'insta_pages/base.html'%}
+{% load bootstrap4 %}
+
+{% block content %}
+
+
+<div class='container'>
+  {% include 'navbar.html' %}
+  <hr>
+
+  <div class='row justify-content-center top-buffer'>
+    {% for item in images %}
+
+    <div class='col-xs-7 col-sm-7 col-md-7 col-lg-7 d-block top-buffer'>
+      <div class='d-inline-flex'>
+        <div class="userAvatar mr-2"> <img class='img-thumbnail' src="{{item.user.prof_pic.cdn_url}}" alt='userAvatar'>
+        </div>
+        <div class='text-center align-self-center'> <strong> {{ item.user.user.username}} </strong> </div>
+      </div>
+
+      <div class='justify-content-center'>
+        <img class='img-responsive imagePost' src="{{item.image.cdn_url}}" alt='Image' data-toggle='modal'
+          data-target="#{{item.id}}">
+
+        <!-- likes and comments -->
+        <p>{{ item.like_set.all|length }} <i class="fa fa-heart-o"></i>
+          {{ item.comment_set.all|length }} <i class="fa fa-commenting-o"></i></p>
+
+        <!-- The Modal -->
+
+        <div class="modal fade" id="{{item.id}}">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title"> {{item.name}} </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <div class='d-inline-flex'>
+
+                  <div class="userAvatar mr-2"> <img class='img-thumbnail' src="{{item.user.prof_pic.cdn_url}}"
+                      alt='userAvatar'></div>
+
+                  <div class='text-center align-self-center'> <strong> {{ item.user.user.username}} </strong> </div>
+                </div>
+
+                <div class='d-flex justify-content-center'>
+                  <img class='img-responsive imagePost' src="{{ item.image.cdn_url }}" alt='image'>
+                </div>
+
+                <p> {{item.name}} </p>
+                <p> {{ item.caption }} </p>
+                <p>{{item.like_set.all|length }} <i class="fa fa-heart-o"></i> {{ item.comment_set.all|length }} <i
+                    class="fa fa-commenting-o"></i></p>
+
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- end modal -->
+
+        <!-- list of posted comments -->
+
+        {{ item.comment_set.all|length }} Comment(s)
+
+        <ul style="list-style-type: none">
+          {% for comment in item.comment_set.all %}
+          <li> {{comment.comments}} </li>
+          {% endfor %}
+        </ul>
+
+        <!-- end of list of comments -->
+        <div>
+
+          <form action="{% url 'comments' image_id=item.id %}" method="post">
+
+            {% csrf_token %}
+
+            {% bootstrap_form commentForm layout='inline' %}
+
+            <div class="form-group">
+
+
+
+              <input type="submit" class="btn btn-primary btn-sm my-2" value="Post Comment">
+            </div>
+          </form>
+        </div>
+
+        <hr>
+      </div>
+
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+
+{% endblock %}
