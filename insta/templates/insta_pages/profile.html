@@ -1,0 +1,92 @@
+{% extends 'insta_pages/base.html'%}
+{% load bootstrap4 %}
+
+{% block content %}
+
+
+<div class='container'>
+  {% include 'navbar.html' %}
+  <hr>
+
+  <div class='row justify-content-center top-buffer'>
+
+
+    <div class='col-xs-7 col-sm-7 col-md-7 col-lg-7 d-block top-buffer'>
+
+      {% comment %} {% for photo in photos %} {% endcomment %}
+
+      <div class='d-inline-flex'>
+        <div class="userAvatar mr-2"> <img class='img-thumbnail' src="{{request.user.profile.prof_pic.cdn_url}}"
+            alt='userAvatar'></div>
+
+        <div class='text-center mr-2 align-self-center'> <strong> {{ request.user.profile.username}} </strong> </div>
+      </div>
+      <hr>
+      <div class='text-center align-self-center'>
+        <p> Email: {{ request.user.email }} </p>
+      </div>
+
+      <div class='text-center align-self-center'>
+        <p> Bio: {{ request.user.profile.bio}} </p>
+      </div>
+
+      <div class='text-center align-self-center'>
+        <p> <a href={% url 'editProfile' %}> Edit Bio </a> </p>
+      </div>
+
+      <hr>
+      {% comment %} {% endfor  %} {% endcomment %}
+
+
+
+
+      {% for photo in photos %}
+
+      <h5> My Posts... </h5>
+      {% comment %} pics posted by current_user {% endcomment %}
+      <div class='d-flex justify-content-center'>
+        <img class='img-responsive imagePost' src="{{photo.image.cdn_url}}" alt='image'>
+      </div>
+
+      <p> {{photo.name}} </p>
+      <p> {{ photo.caption }} </p>
+
+      <p>
+        {{photo.like_set.all|length}} <i class="fa fa-heart-o"></i> {{photo.comment_set.all|length}} <i
+          class="fa fa-commenting-o"></i> </p>
+      <hr>
+      {% endfor %}
+
+    </div>
+
+    <!-- if no posts yet then -->
+
+    {% if photos %}
+
+    {% else %}
+
+    <div class='d-flex col-xs-7 col-sm-7 col-md-7 col-lg-7 text-center'>
+
+      <div class='userAvatar float-left'><img class='img-thumbnail' src="{{request.user.profile.prof_pic.cdn_url}}"
+          alt='userAvatar'></div>
+
+      <div class='align-self-center mx-auto'> <strong> {{ request.user.username}} </strong> </div>
+
+      <div class='text-center align-self-center'>
+        <p> <a href={% url 'editProfile' %}> Edit Bio </a> </p>
+      </div>
+
+    </div>
+
+    <div class='col-xs-7 col-sm-7 col-md-7 col-lg-7 d-flex justify-content-start'> You haven't posted any pictures
+      yet... <a href={% url 'instaFeed' %}> Click here to post one </a> </div>
+
+  </div>
+
+  <!-- end of condition 'no posts yet'-->
+
+  {% endif %}
+
+</div>
+</div>
+{% endblock %}
