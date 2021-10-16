@@ -1,0 +1,30 @@
+{% extends 'insta_pages/base.html'%}
+{% load bootstrap4 %}
+
+{% block content %}
+
+
+<div class='container'>
+  {% include 'navbar.html' %}
+  <hr>
+  <div class='jumbotron'>
+
+    <div>
+
+      <!-- UPDATE USER PROFILE FORM-->
+      <form enctype='multipart/form' action="{% url 'editProfile' %}" method="post">
+
+        {% csrf_token %}
+
+        {% bootstrap_form updateForm layout='inline' %}
+
+        <div class="form-group">
+          <input type="submit" class="btn btn-primary btn-sm my-2" value="Edit Profile">
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
