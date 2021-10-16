@@ -1,0 +1,30 @@
+{% extends 'insta_pages/base.html'%}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<div class='container'>
+  {% include 'navbar.html' %}
+  <hr>
+  <div class='jumbotron'>
+
+    <div>
+
+      <!-- UPLOAD IMAGES/FEED/VIDS FORM -->
+      <form action="{% url 'instaFeed' %}" method="post">
+
+        {% csrf_token %}
+
+        {% bootstrap_form uploadForm layout='inline' %}
+
+        <div class="form-group">
+
+          <input type="submit" class="btn btn-primary btn-sm my-2" value="Upload">
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
