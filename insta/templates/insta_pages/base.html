@@ -1,0 +1,44 @@
+{% load bootstrap4 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  {% if title %}
+  <title> fakeinsta - {{title}}</title>
+  {% else %}
+  <title> fakeinsta </title>
+  {% endif %}
+
+  {% block styles %}
+  {% bootstrap_css %}
+  <link href="https://fonts.googleapis.com/css?family=Cookie|Courgette|Lobster|News+Cycle&display=swap"
+    rel="stylesheet">
+  <link href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel='stylesheet' href='{% static 'css/baseinsta.css'%}'>
+  {% endblock %}
+  {{updateForm.media}}
+
+  {{uploadForm.media}}
+</head>
+
+<body>
+  {% block content %}
+
+  {% include 'navbar.html' %} {% comment %} for some reason, this didn't work, included it in the pages where relevant
+  {% endcomment %}
+
+  {% endblock %}
+
+  {% block scripts %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  {% bootstrap_javascript %}
+  {% endblock %}
+
+</body>
+
+</html>
